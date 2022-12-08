@@ -7,12 +7,12 @@ export const CardsContainer = styled.div`
 `;
 
 export const Card = styled.div`
-  div > h1 {
+  > div > h1 {
     font-size: 20px;
     text-align: center;
   }
 
-  div {
+  > div {
     width: 100%;
     border-bottom: 1px solid #a5c9ca;
     padding: 10px 0px;
@@ -37,7 +37,6 @@ export const CardList = styled.ul`
 
 export const CardItem = styled.li<ICardItem>`
   list-style: none;
-  width: 100%;
   min-height: 40px;
   display: flex;
   justify-content: center;
@@ -49,4 +48,11 @@ export const CardItem = styled.li<ICardItem>`
   box-shadow: ${({ isDragging }) =>
     isDragging && "rgba(0, 0, 0, 0.35) 0px 5px 15px"};
   border-radius: 4px;
+  position: relative;
+  padding: 5px 10px;
+  padding-right: 30px;
+  > p {
+    display: inline-block;
+    word-break: break-word;
+  }
 `;

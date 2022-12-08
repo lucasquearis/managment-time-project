@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useContext, useState } from "react";
 import { TaskContext } from "./context/TasksProvider";
 import { v4 } from "uuid";
+import { Button } from "@mui/material";
 
 const HomeContainer = styled.div`
   max-width: 1440px;
@@ -26,10 +27,10 @@ const InputContainer = styled.div`
   display: flex;
   gap: 5px;
   input {
-    text-align: center;
     :focus-visible {
       outline: none;
     }
+    padding: 5px;
   }
 
   button {
@@ -41,9 +42,7 @@ function App() {
   const { toDoLists, setToDoLists } = useContext(TaskContext);
   const [taskName, setTaskName] = useState("");
 
-  const addTaskOnBoard = (taskName: String) => {
-    console.log({ taskName });
-    console.log({ toDoLists });
+  const addTaskOnBoard = (taskName: string) => {
     const newBoard = Array.from(toDoLists.board);
     newBoard.push({ content: taskName, id: v4() });
     setToDoLists((prevState) => ({ ...prevState, board: newBoard }));
@@ -56,12 +55,20 @@ function App() {
         <p>Adicione uma tarefa ao board</p>
         <InputContainer>
           <input
+            value={taskName}
             onChange={({ target: { value } }) => setTaskName(value)}
             placeholder="Dê um título a tarefa"
           />
-          <button onClick={() => addTaskOnBoard(taskName)}>
+          <Button
+            disabled={taskName.length <= 0}
+            onClick={() => {
+              addTaskOnBoard(taskName);
+              setTaskName("");
+            }}
+            variant="contained"
+          >
             Enviar ao board
-          </button>
+          </Button>
         </InputContainer>
       </TitleContainer>
       <ToDoList />

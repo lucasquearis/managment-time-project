@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   DragDropContext,
   Draggable,
@@ -7,14 +7,20 @@ import {
 } from "react-beautiful-dnd";
 import { TaskContext } from "../../context/TasksProvider";
 import { IToDoList } from "../../types";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import { CARDS_COLUMNS } from "./constats";
 import { Card, CardItem, CardList, CardsContainer } from "./styles";
 
 export default function ToDoList() {
   const { toDoLists, setToDoLists } = useContext(TaskContext);
+  const [openConfirmDeleteModal, setOpenConfirmDeleteModal] = useState({
+    open: false,
+    task: { id: "", content: "" },
+    columnId: "",
+  });
 
   const changeOrderSameColumn = (
-    columnName: String,
+    columnName: string,
     source: number,
     destination: number
   ) => {
@@ -28,8 +34,8 @@ export default function ToDoList() {
   };
 
   const changeItemColumn = (
-    sourceColumnName: String,
-    destinationColumnName: String,
+    sourceColumnName: string,
+    destinationColumnName: string,
     sourceIndex: number,
     destinationIndex: number
   ) => {
@@ -105,10 +111,10 @@ export default function ToDoList() {
             <Droppable droppableId={columnId}>
               {(provided) => (
                 <CardList ref={provided.innerRef} {...provided.droppableProps}>
-                  {toDoLists[code as keyof IToDoList].map((item, index) => (
+                  {toDoLists[code as keyof IToDoList].map((task, index) => (
                     <Draggable
-                      key={`${item.id}`}
-                      draggableId={`${item.id}`}
+                      key={`${task.id}`}
+                      draggableId={`${task.id}`}
                       index={index}
                     >
                       {(provided, snapshot) => (
@@ -116,10 +122,27 @@ export default function ToDoList() {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          onClick={() => console.log("hahaha")}
                           isDragging={snapshot.isDragging}
                         >
-                          {item.content}
+                          <p>{task.content}</p>
+                          <span
+                            style={{
+                              position: "absolute",
+                              right: "5px",
+                              cursor: "pointer",
+                              color: "red",
+                            }}
+                            className="material-symbols-outlined"
+                            onClick={() =>
+                              setOpenConfirmDeleteModal({
+                                open: true,
+                                task,
+                                columnId,
+                              })
+                            }
+                          >
+                            delete
+                          </span>
                         </CardItem>
                       )}
                     </Draggable>
@@ -130,6 +153,10 @@ export default function ToDoList() {
             </Droppable>
           </Card>
         ))}
+        <ConfirmDeleteModal
+          taskState={openConfirmDeleteModal}
+          setTaskState={setOpenConfirmDeleteModal}
+        />
       </CardsContainer>
     </DragDropContext>
   );
