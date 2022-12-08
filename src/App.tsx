@@ -1,6 +1,9 @@
 import "./App.css";
 import ToDoList from "./components/TO-DO-List";
 import styled from "styled-components";
+import { useContext, useState } from "react";
+import { TaskContext } from "./context/TasksProvider";
+import { v4 } from "uuid";
 
 const HomeContainer = styled.div`
   max-width: 1440px;
@@ -35,14 +38,30 @@ const InputContainer = styled.div`
 `;
 
 function App() {
+  const { toDoLists, setToDoLists } = useContext(TaskContext);
+  const [taskName, setTaskName] = useState("");
+
+  const addTaskOnBoard = (taskName: String) => {
+    console.log({ taskName });
+    console.log({ toDoLists });
+    const newBoard = Array.from(toDoLists.board);
+    newBoard.push({ content: taskName, id: v4() });
+    setToDoLists((prevState) => ({ ...prevState, board: newBoard }));
+  };
+
   return (
     <HomeContainer>
       <TitleContainer>
         <h1>To-Do Semanal</h1>
         <p>Adicione uma tarefa ao board</p>
         <InputContainer>
-          <input placeholder="Dê um título a tarefa" />
-          <button>Enviar ao board</button>
+          <input
+            onChange={({ target: { value } }) => setTaskName(value)}
+            placeholder="Dê um título a tarefa"
+          />
+          <button onClick={() => addTaskOnBoard(taskName)}>
+            Enviar ao board
+          </button>
         </InputContainer>
       </TitleContainer>
       <ToDoList />
