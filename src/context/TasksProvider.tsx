@@ -37,6 +37,18 @@ export default function TasksProvider({ children }: { children: ReactNode }) {
     friday: [],
   });
 
+  useEffect(() => {
+    const toDoBoard = localStorage.getItem("board-todo");
+    if (toDoBoard) {
+      setToDoLists(JSON.parse(toDoBoard));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("board-todo", JSON.stringify(toDoLists));
+    console.log(JSON.stringify(toDoLists));
+  }, [toDoLists]);
+
   const value = { toDoLists, setToDoLists };
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
 }
