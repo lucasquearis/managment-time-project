@@ -1,7 +1,7 @@
 import "./App.css";
 import ToDoList from "./components/TO-DO-List";
 import styled from "styled-components";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { TaskContext } from "./context/TasksProvider";
 import { v4 } from "uuid";
 import { Button } from "@mui/material";

@@ -35,7 +35,7 @@ export const CardList = styled.ul`
   height: 100%;
 `;
 
-export const CardItem = styled.li<ICardItem>`
+export const CardContainer = styled.li<ICardItem>`
   list-style: none;
   min-height: 40px;
   display: flex;
@@ -54,5 +54,11 @@ export const CardItem = styled.li<ICardItem>`
   > p {
     display: inline-block;
     word-break: break-word;
+  }
+  > span {
+    position: absolute;
+    right: 5px;
+    cursor: pointer;
+    color: red;
   }
 `;

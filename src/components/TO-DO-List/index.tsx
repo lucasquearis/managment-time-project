@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import {
   DragDropContext,
   Draggable,
@@ -7,9 +7,10 @@ import {
 } from "react-beautiful-dnd";
 import { TaskContext } from "../../context/TasksProvider";
 import { IToDoList } from "../../types";
+import CardItem from "./CardItem";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import { CARDS_COLUMNS } from "./constats";
-import { Card, CardItem, CardList, CardsContainer } from "./styles";
+import { Card, CardList, CardsContainer } from "./styles";
 
 export default function ToDoList() {
   const { toDoLists, setToDoLists } = useContext(TaskContext);
@@ -119,31 +120,14 @@ export default function ToDoList() {
                     >
                       {(provided, snapshot) => (
                         <CardItem
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
+                          dragRef={provided.innerRef}
+                          dragHandleProps={provided.dragHandleProps}
+                          columnId={columnId}
+                          draggableProps={provided.draggableProps}
                           isDragging={snapshot.isDragging}
-                        >
-                          <p>{task.content}</p>
-                          <span
-                            style={{
-                              position: "absolute",
-                              right: "5px",
-                              cursor: "pointer",
-                              color: "red",
-                            }}
-                            className="material-symbols-outlined"
-                            onClick={() =>
-                              setOpenConfirmDeleteModal({
-                                open: true,
-                                task,
-                                columnId,
-                              })
-                            }
-                          >
-                            delete
-                          </span>
-                        </CardItem>
+                          setConfirmDeleteModal={setOpenConfirmDeleteModal}
+                          task={task}
+                        />
                       )}
                     </Draggable>
                   ))}
