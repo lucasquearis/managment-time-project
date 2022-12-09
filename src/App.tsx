@@ -1,7 +1,7 @@
 import "./App.css";
 import ToDoList from "./components/TO-DO-List";
 import styled from "styled-components";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { TaskContext } from "./context/TasksProvider";
 import { v4 } from "uuid";
 import { Button } from "@mui/material";
@@ -23,7 +23,7 @@ const TitleContainer = styled.div`
   gap: 10px;
 `;
 
-const InputContainer = styled.div`
+const InputContainer = styled.form`
   display: flex;
   gap: 5px;
   input {
@@ -31,10 +31,6 @@ const InputContainer = styled.div`
       outline: none;
     }
     padding: 5px;
-  }
-
-  button {
-    padding: 8px 16px;
   }
 `;
 
@@ -58,8 +54,10 @@ function App() {
             value={taskName}
             onChange={({ target: { value } }) => setTaskName(value)}
             placeholder="Dê um título a tarefa"
+            autoFocus
           />
           <Button
+            type="submit"
             disabled={taskName.length <= 0}
             onClick={() => {
               addTaskOnBoard(taskName);

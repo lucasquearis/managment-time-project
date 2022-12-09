@@ -37,10 +37,6 @@ export default function TasksProvider({ children }: { children: ReactNode }) {
     friday: [],
   });
 
-  useEffect(() => {
-    console.log(toDoLists);
-  }, [toDoLists]);
-
   const value = { toDoLists, setToDoLists };
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>;
 }
