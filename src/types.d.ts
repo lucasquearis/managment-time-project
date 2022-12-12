@@ -36,3 +36,7 @@ export interface ICardItem {
   setConfirmDeleteModal: Dispatch<SetStateAction<ITaskState>>;
   columnId: string;
 }
+
+export interface ITaskName {
+  isChecked: boolean;
+}

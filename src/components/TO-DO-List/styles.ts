@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ICardItem } from "../../types";
+import { ICardItem, ITaskName } from "../../types";
 
 export const CardsContainer = styled.div`
   display: flex;
@@ -40,6 +40,7 @@ export const CardContainer = styled.li<ICardItem>`
   min-height: 40px;
   display: flex;
   justify-content: center;
+  gap: 10px;
   align-items: center;
   cursor: move;
   background-color: #a5c9ca;
@@ -50,7 +51,7 @@ export const CardContainer = styled.li<ICardItem>`
   border-radius: 4px;
   position: relative;
   padding: 5px 10px;
-  padding-right: 30px;
+  padding-right: 40px;
   > p {
     display: inline-block;
     word-break: break-word;
@@ -61,4 +62,12 @@ export const CardContainer = styled.li<ICardItem>`
     cursor: pointer;
     color: red;
   }
+`;
+
+export const TaskName = styled.div<ITaskName>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  text-decoration: ${({ isChecked }) => (isChecked ? "line-through" : "none")};
 `;

@@ -1,5 +1,7 @@
+import { Checkbox } from "@mui/material";
+import { useState } from "react";
 import { ICardItem } from "../../types";
-import { CardContainer } from "./styles";
+import { CardContainer, TaskName } from "./styles";
 
 export default function CardItem({
   dragRef,
@@ -10,14 +12,21 @@ export default function CardItem({
   setConfirmDeleteModal,
   columnId,
 }: ICardItem) {
+  const [isChecked, setIsChecked] = useState(false);
   return (
     <CardContainer
       ref={dragRef}
+      isDragging={isDragging}
       {...draggableProps}
       {...dragHandleProps}
-      isDragging={isDragging}
     >
-      <p>{task.content}</p>
+      <TaskName isChecked={isChecked}>
+        <Checkbox
+          checked={isChecked}
+          onChange={(_, checked) => setIsChecked(checked)}
+        />
+        <p>{task.content}</p>
+      </TaskName>
       <span
         className="material-symbols-outlined"
         onClick={() =>

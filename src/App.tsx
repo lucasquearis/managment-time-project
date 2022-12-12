@@ -1,7 +1,7 @@
 import "./App.css";
 import ToDoList from "./components/TO-DO-List";
 import styled from "styled-components";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { TaskContext } from "./context/TasksProvider";
 import { v4 } from "uuid";
 import { Button } from "@mui/material";
@@ -37,6 +37,7 @@ const InputContainer = styled.form`
 function App() {
   const { toDoLists, setToDoLists } = useContext(TaskContext);
   const [taskName, setTaskName] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const addTaskOnBoard = (taskName: string) => {
     const newBoard = Array.from(toDoLists.board);
@@ -51,6 +52,7 @@ function App() {
         <p>Adicione uma tarefa ao board</p>
         <InputContainer>
           <input
+            ref={inputRef}
             value={taskName}
             onChange={({ target: { value } }) => setTaskName(value)}
             placeholder="Dê um título a tarefa"
@@ -62,6 +64,9 @@ function App() {
             onClick={() => {
               addTaskOnBoard(taskName);
               setTaskName("");
+              if (inputRef?.current) {
+                inputRef.current.focus();
+              }
             }}
             variant="contained"
           >

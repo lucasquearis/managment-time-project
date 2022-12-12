@@ -46,7 +46,6 @@ export default function TasksProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     localStorage.setItem("board-todo", JSON.stringify(toDoLists));
-    console.log(JSON.stringify(toDoLists));
   }, [toDoLists]);
 
   const value = { toDoLists, setToDoLists };
