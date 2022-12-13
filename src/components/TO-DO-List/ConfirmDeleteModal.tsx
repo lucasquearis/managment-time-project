@@ -16,19 +16,13 @@ export default function ConfirmDeleteModal({
   const { toDoLists, setToDoLists } = useContext(TaskContext);
 
   const removeTask = (task: TaskFormat, columnId: string) => {
-    const columnName = CARDS_COLUMNS.find(
-      (column) => column.columnId === columnId
-    )?.code;
-
-    if (columnName) {
-      const newList = toDoLists[columnName as keyof IToDoList].filter(
-        ({ id }) => id !== task.id
-      );
-      setToDoLists((prevState) => ({
-        ...prevState,
-        [columnName as keyof IToDoList]: newList,
-      }));
-    }
+    const newList = toDoLists[columnId as keyof IToDoList].filter(
+      ({ id }) => id !== task.id
+    );
+    setToDoLists((prevState) => ({
+      ...prevState,
+      [columnId as keyof IToDoList]: newList,
+    }));
   };
 
   return (

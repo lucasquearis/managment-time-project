@@ -41,7 +41,12 @@ function App() {
 
   const addTaskOnBoard = (taskName: string) => {
     const newBoard = Array.from(toDoLists.board);
-    newBoard.push({ content: taskName, id: v4() });
+    newBoard.push({
+      content: taskName,
+      id: v4(),
+      date: Date.now(),
+      moreInfos: "",
+    });
     setToDoLists((prevState) => ({ ...prevState, board: newBoard }));
   };
 

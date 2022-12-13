@@ -5,6 +5,8 @@ import { ITaskState, TaskFormat } from "../../types";
 type TaskFormat = {
   content: string;
   id: string;
+  date: Date;
+  moreInfos: string;
 };
 
 export interface IToDoList {

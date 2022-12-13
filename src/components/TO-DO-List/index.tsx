@@ -72,47 +72,35 @@ export default function ToDoList() {
       destination.droppableId === source.droppableId &&
       destination.index !== source.index
     ) {
-      const columnName = CARDS_COLUMNS.find(
-        (col) => col.columnId === source.droppableId
-      )?.code;
-
-      if (columnName) {
-        changeOrderSameColumn(columnName, source.index, destination.index);
-      }
+      changeOrderSameColumn(
+        source.droppableId,
+        source.index,
+        destination.index
+      );
     }
 
     if (destination.droppableId !== source.droppableId) {
-      const sourceColumnName = CARDS_COLUMNS.find(
-        (col) => col.columnId === source.droppableId
-      )?.code;
-
-      const destinationColumnName = CARDS_COLUMNS.find(
-        (col) => col.columnId === destination.droppableId
-      )?.code;
-
-      if (sourceColumnName && destinationColumnName) {
-        changeItemColumn(
-          sourceColumnName,
-          destinationColumnName,
-          source.index,
-          destination.index
-        );
-      }
+      changeItemColumn(
+        source.droppableId,
+        destination.droppableId,
+        source.index,
+        destination.index
+      );
     }
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <CardsContainer>
-        {CARDS_COLUMNS.map(({ display, code, columnId }) => (
-          <Card key={code}>
+        {CARDS_COLUMNS.map(({ display, columnId }) => (
+          <Card key={columnId}>
             <div>
               <h1>{display}</h1>
             </div>
             <Droppable droppableId={columnId}>
               {(provided) => (
                 <CardList ref={provided.innerRef} {...provided.droppableProps}>
-                  {toDoLists[code as keyof IToDoList].map((task, index) => (
+                  {toDoLists[columnId as keyof IToDoList].map((task, index) => (
                     <Draggable
                       key={`${task.id}`}
                       draggableId={`${task.id}`}
